@@ -3,7 +3,6 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Controller;
 
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service.ColaboradorService;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
