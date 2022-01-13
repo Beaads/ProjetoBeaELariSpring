@@ -5,7 +5,6 @@ import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
 import org.springframework.stereotype.Service;
 
 
-
 import java.util.List;
 
 

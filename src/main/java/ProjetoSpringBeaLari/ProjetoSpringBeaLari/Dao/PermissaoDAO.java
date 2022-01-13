@@ -23,7 +23,7 @@ public class PermissaoDAO {
 
     public ArrayList<Permissao> listAllPermissoes() {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("SELECT codigoPermissao, nomePermissao FROM public.Permissao");
+            PreparedStatement stm = connection.prepareStatement("SELECT codigoPermissao, nomePermissao FROM PERMISSAO");
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
             ArrayList<Permissao> permissoes = new ArrayList<>();
@@ -82,7 +82,7 @@ public class PermissaoDAO {
 
     public void deleteById(int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("DELETE FROM public.permissao WHERE codigoPermissao = ?");
+            PreparedStatement stm = connection.prepareStatement("DELETE FROM PERMISSAO WHERE codigoPermissao = ?");
             stm.setInt(1, codigoPermissao);
             stm.execute();
         } catch (SQLException | ClassNotFoundException e) {
@@ -92,7 +92,7 @@ public class PermissaoDAO {
 
     public void updateById(Permissao permissao, int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("UPDATE public.permissao SET nomePermissao = ? WHERE codigoPermissao = ?");
+            PreparedStatement stm = connection.prepareStatement("UPDATE PERMISSAO SET nomePermissao = ? WHERE codigoPermissao = ?");
             stm.setString(1, permissao.getNomePermissao());
             stm.setInt(2, codigoPermissao);
             stm.executeUpdate();

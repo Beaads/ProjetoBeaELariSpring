@@ -1,15 +1,16 @@
 package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
 
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Connection.ConnectionFactory;
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.PermissaoColaborador;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PermissaoColaboradorDAO {
     private Connection connection;
@@ -46,6 +47,7 @@ public class PermissaoColaboradorDAO {
         return null;
     }
 
+    // Nao ta puxando lista de permissoes no colaborador
     public PermissaoColaborador findByCodigoPermissaoColaborador(int idColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO" +
@@ -66,6 +68,7 @@ public class PermissaoColaboradorDAO {
         }
         return null;
     }
+
 
     public PermissaoColaborador cadastrarPermissaoColaborador(PermissaoColaborador permissaoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
@@ -89,6 +92,9 @@ public class PermissaoColaboradorDAO {
         }
         return null;
     }
+
+//      validacao 4 permissoes em um colaborador
+//      permissao gerencial só acima de 35 anos
 
 
 
@@ -117,6 +123,7 @@ public class PermissaoColaboradorDAO {
         }
     }
 }
+
 
 
 

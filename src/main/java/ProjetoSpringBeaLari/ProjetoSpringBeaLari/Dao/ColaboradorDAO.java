@@ -2,14 +2,15 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
 
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Connection.ConnectionFactory;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-import org.springframework.http.HttpStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 public class ColaboradorDAO {
 
@@ -92,7 +93,7 @@ public class ColaboradorDAO {
 
     public void deleteById(int codigoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("DELETE FROM PUBLIC.COLABORADOR WHERE " +
+            PreparedStatement stm = connection.prepareStatement("DELETE FROM COLABORADOR WHERE " +
                     "CODIGOCOLABORADOR = ?");
                 stm.setInt(1, codigoColaborador);
                 stm.execute();
@@ -103,7 +104,7 @@ public class ColaboradorDAO {
 
     public void updateById(Colaborador colaborador, int codigoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("UPDATE public.colaborador " +
+            PreparedStatement stm = connection.prepareStatement("UPDATE COLABORADOR " +
                      "SET NOMECOLABORADOR = ?, DATANASCIMENTO = ?, qtdMaxPermissoes = ?" +
                     "WHERE CODIGOCOLABORADOR = ?");
             stm.setString(1, colaborador.getNomeColaborador());
@@ -116,3 +117,23 @@ public class ColaboradorDAO {
         }
     }
 }
+//    public int calculaIdade() throws ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        Calendar dataNascimento = Calendar.getInstance();
+//        dataNascimento.setTime(sdf.parse("15/09/1970"));
+//
+//        Calendar dataAtual = Calendar.getInstance();
+//
+//        int idade = dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
+//
+//        if (dataAtual.get(Calendar.MONTH) < dataNascimento.get(Calendar.MONTH)) {
+//            idade--;
+//        } else {
+//            if (dataAtual.get(Calendar.MONTH) == dataNascimento.get(Calendar.MONTH) && dataAtual
+//                    .get(Calendar.DAY_OF_MONTH) < dataNascimento.get(Calendar.DAY_OF_MONTH)) {
+//                idade--;
+//            }
+//        }
+//        return idade;
+//    }
+//}
