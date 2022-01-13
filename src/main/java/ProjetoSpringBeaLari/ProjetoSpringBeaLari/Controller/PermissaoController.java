@@ -1,6 +1,6 @@
 package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Controller;
 
-;
+
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service.PermissaoService;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +41,9 @@ public class PermissaoController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> replace (@RequestBody Permissao permissao) {
-        permissaoService.replace(permissao);
+    @PutMapping(path = "/{codigoPermissao}")
+    public ResponseEntity<Void> replace (@RequestBody Permissao permissao, @PathVariable int codigoPermissao) {
+        permissaoService.replace(permissao, codigoPermissao);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -34,12 +34,12 @@ public class PermissaoService {
 
     public void delete(int codigoPermissao) {
         PermissaoDAO permissaoDAO = new PermissaoDAO();
-
+        permissaoDAO.deleteById(codigoPermissao);
     }
 
-    public void replace(Permissao permissao) {
-        delete(permissao.getCodigoPermissao());
-        permissoes.add(permissao);
+    public void replace(Permissao permissao, int codigoPermissao) {
+        PermissaoDAO permissaoDAO = new PermissaoDAO();
+        permissaoDAO.updateById(permissao,codigoPermissao);
     }
 }
 

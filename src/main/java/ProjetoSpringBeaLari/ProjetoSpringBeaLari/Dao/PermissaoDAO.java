@@ -26,7 +26,7 @@ public class PermissaoDAO {
             PreparedStatement stm = connection.prepareStatement("SELECT codigoPermissao, nomePermissao FROM public.Permissao");
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
-            ArrayList<Permissao> permissoes = new ArrayList<Permissao>();
+            ArrayList<Permissao> permissoes = new ArrayList<>();
             while(rst.next()) {
                 int codigoPermissao = rst.getInt("codigopermissao");
                 String nomePermissao = rst.getString("nomepermissao");
@@ -79,20 +79,24 @@ public class PermissaoDAO {
         return null;
     }
 
-    public void excluirPermissao(Integer codigopermissao) {
+    public void deleteById(int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement(
-                    "DELETE FROM PERMISSAO WHERE CODIGOPERMISSAO = ?");
-            {
-                stm.setInt(1, codigopermissao);
-                stm.execute();
-
-                connection.close();
-            }
+            PreparedStatement stm = connection.prepareStatement("DELETE FROM public.permissao WHERE codigoPermissao = ?");
+            stm.setInt(1, codigoPermissao);
+            stm.execute();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-
+    public void updateById(Permissao permissao, int codigoPermissao) {
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("UPDATE public.permissao SET nomePermissao = ? WHERE codigoPermissao = ?");
+            stm.setString(1, permissao.getNomePermissao());
+            stm.setInt(2, codigoPermissao);
+            stm.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
