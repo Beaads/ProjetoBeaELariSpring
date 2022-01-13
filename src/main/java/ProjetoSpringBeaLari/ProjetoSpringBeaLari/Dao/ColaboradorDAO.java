@@ -51,7 +51,7 @@ public class ColaboradorDAO {
     public Colaborador findByCodigoColaborador(int idColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, nomecolaborador,"
-                    + " datanascimento, qtdmaxpermissoes FROM public.colaborador WHERE codigocolaborador= (?)");
+                    + " datanascimento, qtdmaxpermissoes FROM COLABORADOR WHERE codigocolaborador= (?)");
             stm.setInt(1, idColaborador);
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();

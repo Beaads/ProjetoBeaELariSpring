@@ -22,11 +22,11 @@ public class PermissaoColaboradorController {
     public ResponseEntity<List<PermissaoColaborador>> list() {
         return new ResponseEntity<>(permissaoColaboradorService.listAll(), HttpStatus.OK);
     }
-//
-//    @GetMapping(path = "/{codigoColaborador, codigoPermissao}")
-//    public ResponseEntity<Colaborador> findById(@PathVariable int codigoColaborador, int codigoPermissao){
-//        return new ResponseEntity<>(permissaoColaboradorService.findByCodigoPermissaoColaborador(codigoColaborador), HttpStatus.OK);
-//    }
+
+    @GetMapping(path = "/{codigoColaborador}")
+    public ResponseEntity<PermissaoColaborador> findById(@PathVariable int codigoColaborador){
+        return new ResponseEntity<>(permissaoColaboradorService.findByCodigoPermissaoColaborador(codigoColaborador), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<PermissaoColaborador> save (@RequestBody PermissaoColaborador permissaoColaborador) {

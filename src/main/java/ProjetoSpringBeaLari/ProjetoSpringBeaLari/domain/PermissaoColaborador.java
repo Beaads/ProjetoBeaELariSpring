@@ -9,4 +9,5 @@ import lombok.Data;
 public class PermissaoColaborador {
     private int codigoColaborador;
     private int codigoPermissao;
+
 }

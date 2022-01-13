@@ -13,12 +13,12 @@ public class PermissaoColaboradorService {
         return permissaoColaboradorDAO.listAllPermissaoColaboradores();
     }
 
-//
-//    public PermissaoColaborador findByCodigoPermissaoColaborador(int codigoColaborador) {
-//        PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();
-//        return permissaoColaboradorDAO.findByCodigoPermissaoColaborador(codigoColaborador);
-//
-//    }
+
+    public PermissaoColaborador findByCodigoPermissaoColaborador(int codigoColaborador) {
+        PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();
+        return permissaoColaboradorDAO.findByCodigoPermissaoColaborador(codigoColaborador);
+
+    }
 
     public PermissaoColaborador save(PermissaoColaborador permissaoColaborador   ) {
         PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();

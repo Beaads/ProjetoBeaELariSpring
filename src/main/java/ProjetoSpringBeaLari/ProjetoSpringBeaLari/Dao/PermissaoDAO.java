@@ -43,11 +43,12 @@ public class PermissaoDAO {
     public Permissao findByCodigoPermissao(int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigopermissao, nomepermissao"
-                    + " FROM public.permissao WHERE codigopermissao= (?)");
+                    + " FROM PERMISSAO WHERE codigopermissao= (?)");
             stm.setInt(1, codigoPermissao);
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
             Permissao permissao = null;
+
             while(rst.next()) {
                 int idCodigoPermissao = rst.getInt("codigopermissao");
                 String nomePermissao = rst.getString("nomepermissao");
