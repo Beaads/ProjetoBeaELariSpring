@@ -7,32 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Stream;
+
 
 @Service
 public class ColaboradorService {
 
-    private static List<Colaborador> colaboradores;
-
-//    static {
-//        colaboradores = new ArrayList<>(
-//                List.of(
-//                        new Colaborador(1, "Beatriz", "31/05/1997", 4),
-//                        new Colaborador(2, "Larissa", "15/09/1994", 4)));
-//    }
-
     public List<Colaborador> listAll() {
-        return colaboradores;
+        ColaboradorDAO colaboradorDao = new ColaboradorDAO();
+        return colaboradorDao.listAllColaboradores();
     }
 
     public Colaborador findByCodigoColaborador(int codigoColaborador) {
-        return colaboradores.stream()
-                .filter(colaborador -> colaborador.getCodigoColaborador() == (codigoColaborador))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Colaborador nao encontrado"));
+        ColaboradorDAO colaboradorDao = new ColaboradorDAO();
+        return colaboradorDao.findByCodigoColaborador(codigoColaborador);
 
     }
 
@@ -41,17 +30,14 @@ public class ColaboradorService {
         return colaboradorDao.cadastrarColaborador(colaborador);
     }
 
-
-
-
     public void delete(int codigoColaborador) {
-        dao.removebyid(codigoColaborador)
-        colaboradores.remove(findByCodigoColaborador(codigoColaborador));
+        ColaboradorDAO colaboradorDao = new ColaboradorDAO();
+        colaboradorDao.deleteById(codigoColaborador);
     }
 
-    public void replace(Colaborador colaborador) {
-        delete(colaborador.getCodigoColaborador());
-        colaboradores.add(colaborador);
+    public void replace(Colaborador colaborador, int codigoColaborador) {
+        ColaboradorDAO colaboradorDao = new ColaboradorDAO();
+        colaboradorDao.updateById(colaborador, codigoColaborador);
     }
 }
 

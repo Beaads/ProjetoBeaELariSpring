@@ -13,10 +13,10 @@ public class ConnectionFactory {
     public ConnectionFactory() throws ClassNotFoundException, SQLException {
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         Connection conexao = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres", "postgres", "12345678");
+                "jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
         comboPooledDataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/postgres");
         comboPooledDataSource.setUser("postgres");
-        comboPooledDataSource.setPassword("12345678");
+        comboPooledDataSource.setPassword("root");
 
         comboPooledDataSource.setMaxPoolSize(15);
 

@@ -21,12 +21,12 @@ public class ColaboradorController {
     //http://localhost:8080/colaboradores
     @GetMapping
     public ResponseEntity<List<Colaborador>> list() {
-        return ResponseEntity.ok(colaboradorService.listAll());
+        return new ResponseEntity<>(colaboradorService.listAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{codigoColaborador}")
-    public ResponseEntity<Colaborador> findByCodigoColaborador(@PathVariable int codigoColaborador){
-        return ResponseEntity.ok(colaboradorService.findByCodigoColaborador(codigoColaborador));
+    public ResponseEntity<Colaborador> findById(@PathVariable int codigoColaborador){
+        return new ResponseEntity<>(colaboradorService.findByCodigoColaborador(codigoColaborador), HttpStatus.OK);
     }
 
     @PostMapping
@@ -40,9 +40,9 @@ public class ColaboradorController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> replace (@RequestBody Colaborador colaborador) {
-        colaboradorService.replace(colaborador);
+    @PutMapping(path = "/{codigoColaborador}")
+    public ResponseEntity<Void> replace (@RequestBody Colaborador colaborador, @PathVariable int codigoColaborador) {
+        colaboradorService.replace(colaborador, codigoColaborador);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

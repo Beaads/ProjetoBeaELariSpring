@@ -18,19 +18,19 @@ public class PermissaoController {
 
     private final PermissaoService permissaoService;
 
-    //http://localhost:8080/permissao
+    //http://localhost:8080/permissoes
     @GetMapping
     public ResponseEntity<List<Permissao>> list() {
-        return ResponseEntity.ok(permissaoService.listAll());
+        return new ResponseEntity<>(permissaoService.listAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{codigoPermissao}")
-    public ResponseEntity<Permissao> findByCodigoPermissao(@PathVariable int codigoPermissao){
-        return ResponseEntity.ok(permissaoService.findByCodigoPermissao(codigoPermissao));
+    public ResponseEntity<Permissao> findById(@PathVariable int codigoPermissao){
+        return new ResponseEntity<>(permissaoService.findByCodigoPermissao(codigoPermissao), HttpStatus.OK);
     }
 
 
-@PostMapping
+    @PostMapping
     public ResponseEntity<Permissao> save (@RequestBody Permissao permissao) {
         return new ResponseEntity<>(permissaoService.save(permissao), HttpStatus.CREATED);
     }
