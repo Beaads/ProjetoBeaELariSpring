@@ -1,11 +1,9 @@
 package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service;
 
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Controller.ColaboradorController;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao.ColaboradorDAO;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 
 import java.util.List;

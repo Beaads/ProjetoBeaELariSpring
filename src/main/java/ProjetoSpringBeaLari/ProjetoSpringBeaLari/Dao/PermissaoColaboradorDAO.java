@@ -1,22 +1,162 @@
-//package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
-//
-//import ProjetoJaneiro.Connection.ConnectionFactory;
-//import ProjetoJaneiro.Domain.Colaborador;
-//import ProjetoJaneiro.Domain.Permissao;
-//
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//
-//public class PermissaoColaboradorDAO {
-//    private Connection connection;
-//    private Colaborador colaborador;
-//    private Permissao permissao;
-//
-//    public PermissaoColaboradorDAO(Connection connection) {
-//        this.connection = connection;
+package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
+
+import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Connection.ConnectionFactory;
+import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
+import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
+import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.PermissaoColaborador;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class PermissaoColaboradorDAO {
+    private Connection connection;
+
+
+    public PermissaoColaboradorDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public PermissaoColaboradorDAO() {
+
+    }
+
+    public ArrayList<PermissaoColaborador> listAllPermissaoColaboradores() {
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO");
+            stm.executeQuery();
+            ResultSet rst = stm.getResultSet();
+            ArrayList<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<PermissaoColaborador>();
+            while(rst.next()) {
+
+                int codigoColaborador = rst.getInt("codigocolaborador");
+                int codigoPermissao = rst.getInt("codigopermissao");
+                PermissaoColaborador permissaoColaborador = new PermissaoColaborador(codigoColaborador, codigoPermissao);
+                colaboradoresEPermissoes.add(permissaoColaborador);
+            }
+            if (colaboradoresEPermissoes.size() > 0) {
+                return colaboradoresEPermissoes;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public PermissaoColaborador cadastrarPermissaoColaborador(PermissaoColaborador permissaoColaborador) {
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("INSERT INTO COLABORADOR_PERMISSAO (" +
+                    " CODIGOCOLABORADOR, CODIGOPERMISSAO) VALUES (?, ?) RETURNING CODIGOCOLABORADOR, CODIGOPERMISSAO");
+            stm.setInt(1, permissaoColaborador.getCodigoColaborador());
+            stm.setInt(2, permissaoColaborador.getCodigoPermissao());
+
+            stm.execute();
+            ResultSet rst = stm.getResultSet();
+            while (rst.next()) {
+
+                int codigoPermissaoColaborador = rst.getInt("CODIGOCOLABORADOR");
+                permissaoColaborador.setCodigoColaborador(codigoPermissaoColaborador);
+                permissaoColaborador.setCodigoPermissao(codigoPermissaoColaborador);
+            }
+            return permissaoColaborador;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteById(int codigoColaborador, int codigoPermissao) {
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("DELETE FROM COLABORADOR_PERMISSAO WHERE " +
+                    "CODIGOCOLABORADOR = ? AND CODIGOPERMISSAO = ?");
+            stm.setInt(1, codigoColaborador);
+            stm.setInt(2, codigoPermissao);
+            stm.execute();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+//    public PermissaoColaborador cadastrarPermissaoColaborador(Colaborador colaborador) {
+//        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+//            PreparedStatement stm = connection.prepareStatement("INSERT INTO COLABORADOR_PERMISSAO (" +
+//                    " CODIGOCOLABORADOR, CODIGOPERMISSAO) VALUES (?, ?) RETURNING CODIGOCOLABORADOR, CODIGOPERMISSAO");
+//            stm.setInt(1, permissaoColaborador.get());
+//            stm.setInt(2, permissao.getCodigoPermissao());
+//            stm.execute();
+//            ResultSet rst = stm.getResultSet();
+//            while (rst.next()) {
+//                int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
+//                colaborador.setCodigoColaborador(codigoColaborador);
+//                PermissaoColaborador permissaoColaborador = new PermissaoColaborador (codigoColaborador, codigoPermissao);
+//                colaboradores.add(permissaoColaborador);
+//            }
+//            return colaborador;
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
 //    }
+//}
+
+
+//    public ArrayList<PermissaoColaborador> listAllPermissaoColaboradores() {
+//        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+//            PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM Colaborador_Permissao");
+//            stm.executeQuery();
+//            ResultSet rst = stm.getResultSet();
+//            ArrayList<PermissaoColaborador> permissoesColaboradores = new ArrayList<PermissaoColaborador>();
+//            while(rst.next()) {
+//                int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
+//                int codigoPermissao = rst.getInt("CODIGOPERMISSAO");
+//
+//                PermissaoColaborador permissaoColaborador = new PermissaoColaborador(codigoColaborador, codigoPermissao);
+//                permissoesColaboradores.add(permissaoColaborador);
+//            }
+//            if (permissoesColaboradores.size() > 0) {
+//                return permissoesColaboradores;
+//            }
+//
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//    public Colaborador findByCodigoPermissaoColaborador(int idColaborador) {
+//        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+//            PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, nomecolaborador,"
+//                    + " datanascimento, qtdmaxpermissoes FROM public.colaborador WHERE codigocolaborador= (?)");
+//            stm.setInt(1, idColaborador);
+//            stm.executeQuery();
+//            ResultSet rst = stm.getResultSet();
+//            Colaborador colaborador = null;
+//            while(rst.next()) {
+//                int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
+//                String nomecolaborador = rst.getString("nomecolaborador");
+//                String datanascimento = rst.getString("datanascimento");
+//                int qtdmaxpermissoes = rst.getInt("qtdmaxpermissoes");
+//                colaborador = new Colaborador(codigoColaborador, nomecolaborador, datanascimento, qtdmaxpermissoes);
+//            }
+//            return colaborador;
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+//
+//}
+//
+//
+//
+
 //
 //    public void cadastrarPermissaoColaborador(Integer codigoColaborador, Integer codigoPermissao) {
 //        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
@@ -35,23 +175,20 @@
 //        }
 //    }
 //
-////    public void validacaoPermissaoColaborador(Integer permissao, Integer colaborador) {
-////         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-////            PreparedStatement stm = connection.prepareStatement(
-////                    "INSERT INTO COLABORADOR_PERMISSAO (" +
-////                            "CODIGOPERMISSAO_PERMISSAO, CODIGOCOLABORADOR_COLABORADOR) VALUES (?, ?)");
-////            stm.setInt(1, permissao);
-////            stm.setInt(2, colaborador);
-////
-////            stm.execute();
-////            connection.close();
-////
-////        } catch (SQLException | ClassNotFoundException e) {
-////            e.printStackTrace();
-////        }
-////    }
+//    public void addPneuNoVeiculo(Integer pneu, Integer veiculo) {
+//        try {
+//            PreparedStatement stmValidation = connection.prepareStatement("SELECT COLABORADOR_PERMISSAO FROM CODIGOCOLABORADOR, CODIGOPERMISSAO WHERE CODIGOCOLABORADOR = ?");
+//            stmValidation.setInt(1, pneu);
+//            ResultSet resultadoValidation = stmValidation.executeQuery();
+//            if (resultadoValidation.next()) {
+//            }
 //
-//    public void excluirPermissaoColaborador(Integer codigoColaborador, Integer codigoPermissao) {
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void deleteById(Integer codigoColaborador, Integer codigoPermissao) {
 //         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
 //                PreparedStatement stm = connection.prepareStatement(
 //                "DELETE FROM COLABORADOR_PERMISSAO WHERE (" +
@@ -120,4 +257,4 @@
 //}
 //
 //}
-//
+

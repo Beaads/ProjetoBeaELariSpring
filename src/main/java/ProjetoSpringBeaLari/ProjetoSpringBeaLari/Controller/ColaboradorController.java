@@ -1,6 +1,5 @@
 package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Controller;
 
-
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service.ColaboradorService;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("colaboradores")
 @RequiredArgsConstructor
-
 public class ColaboradorController {
 
     private final ColaboradorService colaboradorService;
