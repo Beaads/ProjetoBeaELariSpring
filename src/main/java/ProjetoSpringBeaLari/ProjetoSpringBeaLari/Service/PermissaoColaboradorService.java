@@ -8,7 +8,9 @@ import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.PermissaoColaborador;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PermissaoColaboradorService {
@@ -17,23 +19,29 @@ public class PermissaoColaboradorService {
         return permissaoColaboradorDAO.listAllPermissaoColaboradores();
     }
 
-
-    public PermissaoColaborador findByCodigoPermissaoColaborador(int codigoColaborador) {
+    public List<PermissaoColaborador> findByCodigoPermissaoColaborador(int codigoColaborador) {
         PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();
         return permissaoColaboradorDAO.findByCodigoPermissaoColaborador(codigoColaborador);
     }
 
-    public PermissaoColaborador save(PermissaoColaborador permissaoColaborador   ) {
-        PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();
 
+    public PermissaoColaborador save(PermissaoColaborador permissaoColaborador) throws ParseException {
+        PermissaoColaboradorDAO permissaoColaboradorDAO = new PermissaoColaboradorDAO();
         ColaboradorDAO colaboradorDAO = new ColaboradorDAO();
-//        colaboradorDAO.calculaIdade();
-//        PermissaoDAO permissaoDAO = new PermissaoDAO();
-//        Permissao byCodigoPermissao = permissaoDAO.findByCodigoPermissao(permissaoColaborador.getCodigoPermissao());
-//        Colaborador byCodigoColaborador = colaboradorDAO.findByCodigoColaborador(permissaoColaborador.getCodigoColaborador());
-//
-//
-        return permissaoColaboradorDAO.cadastrarPermissaoColaborador(permissaoColaborador);
+        int qntdMaxPermissaoColaborador = ColaboradorDAO.returnQntMaxPermissao(permissaoColaborador.getCodigoColaborador());
+        int qntdPermissaoNoColaborador = permissaoColaboradorDAO.returnQntPermissaoPorColaborador(permissaoColaborador.getCodigoColaborador());
+        if (qntdPermissaoNoColaborador < qntdMaxPermissaoColaborador) {
+            int idade = colaboradorDAO.calculaIdade(permissaoColaborador.getCodigoColaborador());
+            if(idade < 35) {
+                PermissaoDAO permissaoDAO = new PermissaoDAO();
+                String permissao = permissaoDAO.returnPermisao(permissaoColaborador.getCodigoPermissao());
+                if (Objects.equals(permissao, "Gerencial")) {
+                    return null;
+                }
+            }
+            return permissaoColaboradorDAO.cadastrarPermissaoColaborador(permissaoColaborador);
+        }
+        return null;
     }
 
 
@@ -42,10 +50,3 @@ public class PermissaoColaboradorService {
         permissaoColaboradorDAO.deleteById(codigoColaborador, codigoPermissao);
     }
 }
-
-//        if (byCodigoColaborador. < 35 && byCodigoPermissao.equals("Gerencial")) {
-//            // nao pode
-//
-//        permissaoColaboradorDAO.findByCodigoPermissaoColaborador(permissaoColaborador.getCodigoColaborador())
-//                >=4
-//

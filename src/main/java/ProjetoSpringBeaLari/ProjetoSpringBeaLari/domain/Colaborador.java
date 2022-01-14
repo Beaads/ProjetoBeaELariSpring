@@ -11,4 +11,7 @@ public class Colaborador {
     private String dataNascimento;
     private int qtdMaxPermissoes;
 
+    public Colaborador() {
+        this.qtdMaxPermissoes = 4;
+    }
 }

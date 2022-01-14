@@ -62,6 +62,24 @@ public class PermissaoDAO {
         return null;
     }
 
+    public String returnPermisao(int codigoPermissao) {
+        String permissao = "";
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("SELECT nomepermissao FROM PERMISSAO WHERE codigopermissao= (?)");
+            stm.setInt(1, codigoPermissao);
+            stm.executeQuery();
+            ResultSet rst = stm.getResultSet();
+            while(rst.next()) {
+                permissao = rst.getString("nomepermissao");
+            }
+            return permissao;
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return permissao;
+    }
+
     public Permissao cadastrarPermissao(Permissao permissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement(

@@ -47,21 +47,25 @@ public class PermissaoColaboradorDAO {
         return null;
     }
 
-    // Nao ta puxando lista de permissoes no colaborador
-    public PermissaoColaborador findByCodigoPermissaoColaborador(int idColaborador) {
+
+
+    public ArrayList<PermissaoColaborador> findByCodigoPermissaoColaborador(int codigoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO" +
-                    " WHERE codigocolaborador = (?)");
-            stm.setInt(1, idColaborador);
+            PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO WHERE codigocolaborador = (?)");
+            stm.setInt(1, codigoColaborador);
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
-            PermissaoColaborador permissaoColaborador = null;
+            ArrayList<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<PermissaoColaborador>();
             while(rst.next()) {
-                int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
+
+                int idCodigoColaborador = rst.getInt("codigocolaborador");
                 int codigoPermissao = rst.getInt("codigopermissao");
-                permissaoColaborador = new PermissaoColaborador(codigoColaborador, codigoPermissao);
+                PermissaoColaborador permissaoColaborador = new PermissaoColaborador(idCodigoColaborador, codigoPermissao);
+                colaboradoresEPermissoes.add(permissaoColaborador);
             }
-            return permissaoColaborador;
+            if (colaboradoresEPermissoes.size() > 0) {
+                return colaboradoresEPermissoes;
+            }
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -69,6 +73,23 @@ public class PermissaoColaboradorDAO {
         return null;
     }
 
+    public int returnQntPermissaoPorColaborador(int idColaborador) {
+        int qntPermissaoColaborador = 0;
+        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
+            PreparedStatement stm = connection.prepareStatement("SELECT COUNT(codigocolaborador) as qntPermissaoColaborador FROM COLABORADOR_PERMISSAO WHERE codigocolaborador = (?)");
+            stm.setInt(1, idColaborador);
+            stm.executeQuery();
+            ResultSet rst = stm.getResultSet();
+            while(rst.next()) {
+                qntPermissaoColaborador = rst.getInt("qntPermissaoColaborador");
+            }
+            return qntPermissaoColaborador;
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return qntPermissaoColaborador;
+    }
 
     public PermissaoColaborador cadastrarPermissaoColaborador(PermissaoColaborador permissaoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
@@ -76,14 +97,13 @@ public class PermissaoColaboradorDAO {
                     " CODIGOCOLABORADOR, CODIGOPERMISSAO) VALUES (?, ?) RETURNING CODIGOCOLABORADOR, CODIGOPERMISSAO");
             stm.setInt(1, permissaoColaborador.getCodigoColaborador());
             stm.setInt(2, permissaoColaborador.getCodigoPermissao());
-
             stm.execute();
             ResultSet rst = stm.getResultSet();
             while (rst.next()) {
-
-                int codigoPermissaoColaborador = rst.getInt("CODIGOCOLABORADOR");
-                permissaoColaborador.setCodigoColaborador(codigoPermissaoColaborador);
-                permissaoColaborador.setCodigoPermissao(codigoPermissaoColaborador);
+                int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
+                int codigoPermissao = rst.getInt("CODIGOPERMISSAO");
+                permissaoColaborador.setCodigoColaborador(codigoColaborador);
+                permissaoColaborador.setCodigoPermissao(codigoPermissao);
             }
 
             return permissaoColaborador;
@@ -93,23 +113,6 @@ public class PermissaoColaboradorDAO {
         return null;
     }
 
-//      validacao 4 permissoes em um colaborador
-//      permissao gerencial só acima de 35 anos
-
-
-
-//    public void aposValidacaoPermissaoColaborador(int codigoColaborador, int codigoPermissao) {
-//        try {
-//            PreparedStatement stmValidation = connection.prepareStatement("SELECT CODIGOCOLABORADOR FROM COLABORADOR_PERMISSAO WHERE CODIGOCOLABORADOR = ?");
-//            stmValidation.setInt(1, codigoColaborador);
-//            while(codigoPermissao <= 4) {
-//                ResultSet resultadoValidation = stmValidation.executeQuery();
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public void deleteById(int codigoColaborador, int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
