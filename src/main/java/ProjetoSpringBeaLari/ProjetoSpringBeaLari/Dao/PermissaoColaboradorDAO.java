@@ -7,14 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class PermissaoColaboradorDAO {
     private Connection connection;
-
 
     public PermissaoColaboradorDAO(Connection connection) {
         this.connection = connection;
@@ -46,8 +42,6 @@ public class PermissaoColaboradorDAO {
         }
         return null;
     }
-
-
 
     public ArrayList<PermissaoColaborador> findByCodigoPermissaoColaborador(int codigoColaborador) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
@@ -112,7 +106,6 @@ public class PermissaoColaboradorDAO {
         }
         return null;
     }
-
 
     public void deleteById(int codigoColaborador, int codigoPermissao) {
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {

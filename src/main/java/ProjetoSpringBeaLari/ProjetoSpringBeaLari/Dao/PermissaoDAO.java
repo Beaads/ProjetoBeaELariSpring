@@ -2,7 +2,6 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
 
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Connection.ConnectionFactory;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

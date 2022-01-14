@@ -2,7 +2,6 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao;
 
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Connection.ConnectionFactory;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -151,6 +150,7 @@ public class ColaboradorDAO {
         }
         return dataNascimetno;
     }
+
     public int calculaIdade(int idColaborador) throws ParseException {
         String returnDataNascimento = returnDataNascimento(idColaborador);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

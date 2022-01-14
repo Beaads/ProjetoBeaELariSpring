@@ -19,29 +19,6 @@ CREATE TABLE Colaborador_Permissao(
 );
 
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-
-CREATE TABLE Colaborador(
-		codigoColaborador uuid DEFAULT uuid_generate_v4 (),
-		nomeColaborador VARCHAR (255),
-		dataNascimento VARCHAR(10),
-		qtdMaxPermissoes int,
-		PRIMARY KEY(codigoColaborador)
-);
-CREATE TABLE Permissao(
-		  codigoPermissao uuid DEFAULT uuid_generate_v4 (),
-		  nomePermissao VARCHAR (255)
-);
-
-CREATE TABLE Colaborador_Permissao(
-		  codigoColaborador int not null,
-		  codigoPermissao int not null,
-		  foreign key (codigoColaborador) references  Colaborador(codigoColaborador),
-		  foreign key (codigoPermissao) references Permissao(codigoPermissao),
-		  CONSTRAINT pk_Colaborador_Permissao PRIMARY KEY(codigoColaborador,codigoPermissao)
-);
-
 
 DROP TABLE COLABORADOR_PERMISSAO;
 

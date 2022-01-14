@@ -3,8 +3,6 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao.ColaboradorDAO;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao.PermissaoColaboradorDAO;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao.PermissaoDAO;
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Colaborador;
-import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.PermissaoColaborador;
 import org.springframework.stereotype.Service;
 
