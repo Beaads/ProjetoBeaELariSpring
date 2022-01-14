@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("colaboradores")
@@ -23,23 +23,23 @@ public class ColaboradorController {
     }
 
     @GetMapping(path = "/{codigoColaborador}")
-    public ResponseEntity<Colaborador> findById(@PathVariable int codigoColaborador){
+    public ResponseEntity<Colaborador> findById(@PathVariable int codigoColaborador) {
         return new ResponseEntity<>(colaboradorService.findByCodigoColaborador(codigoColaborador), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Colaborador> save (@RequestBody Colaborador colaborador) {
+    public ResponseEntity<Colaborador> save(@RequestBody Colaborador colaborador) {
         return new ResponseEntity<>(colaboradorService.save(colaborador), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{codigoColaborador}")
-    public ResponseEntity<Void> delete (@PathVariable int codigoColaborador) {
+    public ResponseEntity<Void> delete(@PathVariable int codigoColaborador) {
         colaboradorService.delete(codigoColaborador);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(path = "/{codigoColaborador}")
-    public ResponseEntity<Void> replace (@RequestBody Colaborador colaborador, @PathVariable int codigoColaborador) {
+    public ResponseEntity<Void> replace(@RequestBody Colaborador colaborador, @PathVariable int codigoColaborador) {
         colaboradorService.replace(colaborador, codigoColaborador);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

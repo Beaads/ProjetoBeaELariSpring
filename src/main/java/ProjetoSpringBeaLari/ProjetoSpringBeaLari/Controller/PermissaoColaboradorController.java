@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.text.ParseException;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("permissaoColaboradores")
@@ -24,17 +24,19 @@ public class PermissaoColaboradorController {
     }
 
     @GetMapping(path = "/{codigoColaborador}")
-    public ResponseEntity<List<PermissaoColaborador>> findByCodigoPermissaoColaborador(@PathVariable int codigoColaborador){
-        return new ResponseEntity<>(permissaoColaboradorService.findByCodigoPermissaoColaborador(codigoColaborador), HttpStatus.OK);
+    public ResponseEntity<List<PermissaoColaborador>> findByCodigoPermissaoColaborador(@PathVariable int codigoColaborador) {
+        return new ResponseEntity<>(permissaoColaboradorService.findByCodigoPermissaoColaborador(codigoColaborador),
+                                    HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<PermissaoColaborador> save (@RequestBody PermissaoColaborador permissaoColaborador) throws ParseException {
+    public ResponseEntity<PermissaoColaborador> save(@RequestBody PermissaoColaborador permissaoColaborador)
+            throws ParseException {
         return new ResponseEntity<>(permissaoColaboradorService.save(permissaoColaborador), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{codigoColaborador}/{codigoPermissao}")
-    public ResponseEntity<Void> delete (@PathVariable int codigoColaborador, @PathVariable int codigoPermissao) {
+    public ResponseEntity<Void> delete(@PathVariable int codigoColaborador, @PathVariable int codigoPermissao) {
         permissaoColaboradorService.delete(codigoColaborador, codigoPermissao);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

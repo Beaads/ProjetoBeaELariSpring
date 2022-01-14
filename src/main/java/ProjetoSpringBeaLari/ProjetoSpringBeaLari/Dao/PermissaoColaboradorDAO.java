@@ -8,81 +8,45 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PermissaoColaboradorDAO {
-    private Connection connection;
 
-    public PermissaoColaboradorDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public PermissaoColaboradorDAO() {
-
-    }
-
-    public ArrayList<PermissaoColaborador> listAllPermissaoColaboradores() {
+    public List<PermissaoColaborador> listAllPermissaoColaboradores() {
+        List<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<>();
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO");
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
-            ArrayList<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<PermissaoColaborador>();
             while(rst.next()) {
-
                 int codigoColaborador = rst.getInt("codigocolaborador");
                 int codigoPermissao = rst.getInt("codigopermissao");
                 PermissaoColaborador permissaoColaborador = new PermissaoColaborador(codigoColaborador, codigoPermissao);
                 colaboradoresEPermissoes.add(permissaoColaborador);
             }
-            if (colaboradoresEPermissoes.size() > 0) {
-                return colaboradoresEPermissoes;
-            }
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return colaboradoresEPermissoes;
     }
 
-    public ArrayList<PermissaoColaborador> findByCodigoPermissaoColaborador(int codigoColaborador) {
+    public List<PermissaoColaborador> findByCodigoPermissaoColaborador(int codigoColaborador) {
+        List<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<>();
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, codigopermissao FROM COLABORADOR_PERMISSAO WHERE codigocolaborador = (?)");
             stm.setInt(1, codigoColaborador);
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
-            ArrayList<PermissaoColaborador> colaboradoresEPermissoes = new ArrayList<PermissaoColaborador>();
             while(rst.next()) {
-
                 int idCodigoColaborador = rst.getInt("codigocolaborador");
                 int codigoPermissao = rst.getInt("codigopermissao");
                 PermissaoColaborador permissaoColaborador = new PermissaoColaborador(idCodigoColaborador, codigoPermissao);
                 colaboradoresEPermissoes.add(permissaoColaborador);
             }
-            if (colaboradoresEPermissoes.size() > 0) {
-                return colaboradoresEPermissoes;
-            }
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    public int returnQntPermissaoPorColaborador(int idColaborador) {
-        int qntPermissaoColaborador = 0;
-        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("SELECT COUNT(codigocolaborador) as qntPermissaoColaborador FROM COLABORADOR_PERMISSAO WHERE codigocolaborador = (?)");
-            stm.setInt(1, idColaborador);
-            stm.executeQuery();
-            ResultSet rst = stm.getResultSet();
-            while(rst.next()) {
-                qntPermissaoColaborador = rst.getInt("qntPermissaoColaborador");
-            }
-            return qntPermissaoColaborador;
-
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return qntPermissaoColaborador;
+        return colaboradoresEPermissoes;
     }
 
     public PermissaoColaborador cadastrarPermissaoColaborador(PermissaoColaborador permissaoColaborador) {

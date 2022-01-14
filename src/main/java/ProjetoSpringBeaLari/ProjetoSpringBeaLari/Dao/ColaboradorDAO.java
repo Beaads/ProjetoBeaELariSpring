@@ -10,26 +10,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ColaboradorDAO {
 
-    private Connection connection;
-
-    public ColaboradorDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public ColaboradorDAO() {
-
-    }
-
-    public ArrayList<Colaborador> listAllColaboradores() {
+    public List<Colaborador> listAllColaboradores() {
+        List<Colaborador> colaboradores = new ArrayList<>();
         try (Connection connection = new ConnectionFactory().recuperarConexao()) {
             PreparedStatement stm = connection.prepareStatement("SELECT codigocolaborador, nomecolaborador,"
                     + " datanascimento, qtdmaxpermissoes FROM colaborador");
             stm.executeQuery();
             ResultSet rst = stm.getResultSet();
-            ArrayList<Colaborador> colaboradores = new ArrayList<Colaborador>();
             while (rst.next()) {
                 int codigoColaborador = rst.getInt("CODIGOCOLABORADOR");
                 String nomecolaborador = rst.getString("nomecolaborador");
@@ -38,32 +29,10 @@ public class ColaboradorDAO {
                 Colaborador colaborador = new Colaborador(codigoColaborador, nomecolaborador, datanascimento, qtdmaxpermissoes);
                 colaboradores.add(colaborador);
             }
-            if (colaboradores.size() > 0) {
-                return colaboradores;
-            }
-
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    public static int returnQntMaxPermissao(int idColaborador) {
-        int qtdMaxPermissoes = 0;
-        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("SELECT qtdmaxpermissoes FROM colaborador WHERE codigoColaborador = ?");
-            stm.setInt(1, idColaborador);
-            stm.executeQuery();
-            ResultSet rst = stm.getResultSet();
-            while (rst.next()) {
-                qtdMaxPermissoes = rst.getInt("qtdmaxpermissoes");
-            }
-            return qtdMaxPermissoes;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return qtdMaxPermissoes;
+        return colaboradores;
     }
 
     public Colaborador findByCodigoColaborador(int idColaborador) {
@@ -132,43 +101,5 @@ public class ColaboradorDAO {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public static String returnDataNascimento(int idColaborador) {
-        String dataNascimetno = "";
-        try (Connection connection = new ConnectionFactory().recuperarConexao()) {
-            PreparedStatement stm = connection.prepareStatement("SELECT datanascimento FROM colaborador WHERE codigoColaborador = ?");
-            stm.setInt(1, idColaborador);
-            stm.executeQuery();
-            ResultSet rst = stm.getResultSet();
-            while (rst.next()) {
-                dataNascimetno = rst.getString("datanascimento");
-            }
-            return dataNascimetno;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return dataNascimetno;
-    }
-
-    public int calculaIdade(int idColaborador) throws ParseException {
-        String returnDataNascimento = returnDataNascimento(idColaborador);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar dataNascimento = Calendar.getInstance();
-        dataNascimento.setTime(sdf.parse(returnDataNascimento));
-
-        Calendar dataAtual = Calendar.getInstance();
-
-        int idade = dataAtual.get(Calendar.YEAR) - dataNascimento.get(Calendar.YEAR);
-
-        if (dataAtual.get(Calendar.MONTH) < dataNascimento.get(Calendar.MONTH)) {
-            idade--;
-        } else {
-            if (dataAtual.get(Calendar.MONTH) == dataNascimento.get(Calendar.MONTH) && dataAtual
-                    .get(Calendar.DAY_OF_MONTH) < dataNascimento.get(Calendar.DAY_OF_MONTH)) {
-                idade--;
-            }
-        }
-        return idade;
     }
 }

@@ -3,37 +3,31 @@ package ProjetoSpringBeaLari.ProjetoSpringBeaLari.Service;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.Dao.PermissaoDAO;
 import ProjetoSpringBeaLari.ProjetoSpringBeaLari.domain.Permissao;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class PermissaoService {
-
-    private static List<Permissao> permissoes;
+    private PermissaoDAO permissaoDao = new PermissaoDAO();
 
     public List<Permissao> listAll() {
-        PermissaoDAO permissaodDao = new PermissaoDAO();
-        return permissaodDao.listAllPermissoes();
-}
+        return permissaoDao.listAllPermissoes();
+    }
 
     public Permissao findByCodigoPermissao(int codigoPermissao) {
-        PermissaoDAO permissaoDAO = new PermissaoDAO();
-        return permissaoDAO.findByCodigoPermissao(codigoPermissao);
-
+        return permissaoDao.findByCodigoPermissao(codigoPermissao);
     }
 
     public Permissao save(Permissao permissao) {
-        PermissaoDAO permissaoDAO = new PermissaoDAO();
-        return permissaoDAO.cadastrarPermissao(permissao);
+        return permissaoDao.cadastrarPermissao(permissao);
     }
 
     public void delete(int codigoPermissao) {
-        PermissaoDAO permissaoDAO = new PermissaoDAO();
-        permissaoDAO.deleteById(codigoPermissao);
+        permissaoDao.deleteById(codigoPermissao);
     }
 
     public void replace(Permissao permissao, int codigoPermissao) {
-        PermissaoDAO permissaoDAO = new PermissaoDAO();
-        permissaoDAO.updateById(permissao,codigoPermissao);
+        permissaoDao.updateById(permissao, codigoPermissao);
     }
 }
 
